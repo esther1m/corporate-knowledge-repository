@@ -1,24 +1,42 @@
+require('dotenv').config(); // Load .env variables
 const express = require('express');
 const router = express.Router();
+const { createClient } = require('@supabase/supabase-js');
 
-const {supabase} = require('./supabaseClient');
+// Supabase client using anon key
+const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_ANON_KEY);
 
-//Post 
+//console.log('Supabase URL:', supabaseUrl); // sanity check
+
+// POST /signup
 router.post('/signup', async (req, res) => {
-    console.log('Incoming signup request:', req.body);
-    
-    const {email, password } = req.body;
+  const { email, password } = req.body;
 
-    const { data, error } = await supabase.auth.signUp({
-        email,
-        password
-    });
+//Trim spaces and clean the input 
+const emailClean = req.body.email?.trim();
+const passwordClean = req.body.password?.trim();
 
-    if (error) return res.status(400).json({ error:error.message});
+//Validating the required fields 
+  if (!emailClean || !passwordClean) 
+    return res.status(400).json({ error: 'Email and password required' });
 
-    res.status(200).json({ 
-     message: 'Sign up is successful. Please check your email to confirm!'
-    });
+  const { data, error } = await supabase.auth.signUp({ email: emailClean, password: passwordClean });
+
+  if (error) return res.status(400).json({ error: error.message });
+
+  res.json({ message: 'Signup successful', data });
+});
+
+// Login
+router.post('/login', async (req, res) => {
+  const { email, password } = req.body;
+  if (!email || !password) 
+    return res.status(400).json({ error: 'Email and password required' });
+
+  const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+   if (error) return res.status(400).json({ error: error.message });
+
+  res.json({ message: 'Login successful', data });
 });
 
 module.exports = router;
