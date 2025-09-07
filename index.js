@@ -4,8 +4,9 @@ const express = require('express');
 const app = express();
 
 const searchRoutes = require('./search'); 
-const recommendationRoutes = require ('./recommendation');
+const recommendationRoutes = require('./recommendation');
 const authRoutes = require('./authRoutes');
+const reviewsRoutes = require('./reviews');
 
 console.log('Loading authRoutes...');
 
@@ -22,6 +23,7 @@ app.get("/", (req, res) => {
 app.use('/api/search', searchRoutes);
 app.use('/auth', authRoutes);
 app.use('/api', recommendationRoutes);
+app.use('/api', reviewsRoutes);
 
 //Error handler
 app.use((err, req, res, next) => {

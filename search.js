@@ -13,11 +13,6 @@ router.get('/', (req, res) => {
   const url = `https://openlibrary.org/search.json?${query}`;
   console.log('Requesting:', url);
 
-  // Add this options object to fix SSL issue on CGI/university networks
-  const options = {
-    rejectUnauthorized: false
-  };
-
   https.get(url, options, (response) => {
     let data = '';
 

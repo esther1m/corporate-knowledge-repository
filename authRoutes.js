@@ -6,7 +6,6 @@ const { createClient } = require('@supabase/supabase-js');
 // Supabase client using anon key
 const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_ANON_KEY);
 
-//console.log('Supabase URL:', supabaseUrl); // sanity check
 
 // POST /signup
 router.post('/signup', async (req, res) => {
