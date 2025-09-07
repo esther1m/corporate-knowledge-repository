@@ -38,4 +38,22 @@ router.post('/login', async (req, res) => {
   res.json({ message: 'Login successful', data });
 });
 
+
+//Logout 
+router.post('/logout', async (req, res) => {
+  try {
+    const { access_token } = req.body;
+    if (!access_token) return res.status(400).json({ error: 'Access token required' });
+
+    // Sign out using Supabase
+    const { error } = await supabase.auth.signOut({ token: access_token });
+    if (error) return res.status(400).json({ error: error.message });
+
+    res.json({ message: 'Logout successful' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
 module.exports = router;
