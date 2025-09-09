@@ -20,7 +20,7 @@ app.get("/", (req, res) => {
 });
 
 //Mount routes 
-app.use('/api/search', searchRoutes);
+app.use('/search', searchRoutes);
 app.use('/auth', authRoutes);
 app.use('/api', recommendationRoutes);
 app.use('/api', reviewsRoutes);
