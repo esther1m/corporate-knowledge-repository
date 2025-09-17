@@ -22,7 +22,7 @@ router.get('/recommendation', authMiddleware, async (req, res) => {
 });
 
 // Get /recommendation - only logged in user sees their own
-router.get('/recommendation', authMiddleware, async (req, res) => {
+router.get('/my-recommendation', authMiddleware, async (req, res) => {
   try {
     const { data: employee, error: employeeError } = await supabase
       .from('employees')

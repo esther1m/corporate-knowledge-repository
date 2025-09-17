@@ -23,7 +23,7 @@ router.get('/reviews', authMiddleware, async (req, res) => {
 
 
 // GET logged-in user's reviews (protected)
-router.get('/reviews', authMiddleware, async (req, res) => {
+router.get('/my-reviews', authMiddleware, async (req, res) => {
   try {
     // Find employee_id for logged-in user
     const { data: employee, error: employeeError } = await supabase
