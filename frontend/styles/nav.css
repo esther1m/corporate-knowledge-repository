@@ -1,0 +1,32 @@
+.navbar {
+  background-color: #333;
+  padding: 0;
+}
+
+.navbar ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+}
+
+.navbar li {
+  margin: 0;
+}
+
+.navbar a {
+  display: block;
+  color: #fff;
+  text-decoration: none;
+  padding: 16px 24px;
+  transition: background 0.2s;
+}
+
+.navbar a.active {
+  background-color: #222;
+  color: #ffd700;
+}
+
+.navbar a:hover {
+  background-color: #555;
+}

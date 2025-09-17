@@ -1,0 +1,17 @@
+.book-tile {
+  display: inline-block;
+  width: 180px;
+  margin: 10px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  vertical-align: top;
+  text-align: center;
+  border-radius: 8px;
+  background: #fafafa;
+}
+.book-cover {
+  width: 100px;
+  height: 150px;
+  object-fit: cover;
+  margin-bottom: 8px;
+}
