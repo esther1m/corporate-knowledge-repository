@@ -4,24 +4,6 @@ const { supabase } = require('./supabaseClient');
 const authMiddleware = require('./authMiddleware');
 
 
-// GET all reviews (public)
-router.get('/reviews', authMiddleware, async (req, res) => {
-  try {
-    const { data, error } = await supabase
-    .from('reviews')
-    .select('*');
-
-    if (error) return res.status(400).json({ error: error.message });
-    if (!data || data.length === 0) return res.status(404).json({ error: 'No reviews found' });
-
-    res.json({ data });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'Internal server error' });
-  }
-});
-
-
 // GET logged-in user's reviews (protected)
 router.get('/reviews', authMiddleware, async (req, res) => {
   try {

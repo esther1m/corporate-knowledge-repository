@@ -3,24 +3,6 @@ const router = express.Router();
 const { supabase } = require('./supabaseClient');
 const authMiddleware = require('./authMiddleware'); // import your middleware
 
-
-// GET all recommendation (public)
-router.get('/recommendation', authMiddleware, async (req, res) => {
-  try { 
-  const { data, error } = await supabase
-  .from('recommendations')
-  .select('*');
-
-  if (error) return res.status(400).json({ error: error.message });
-  if (!data || data.length === 0) return res.status(404).json({ error: 'No recommendations found' });
-
-  res.json({ data });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'Internal server error' });
-  }
-});
-
 // Get /recommendation - only logged in user sees their own
 router.get('/recommendation', authMiddleware, async (req, res) => {
   try {
