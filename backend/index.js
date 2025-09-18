@@ -5,6 +5,7 @@ const app = express();
 
 const searchRoutes = require('./search'); 
 const recommendationRoutes = require('./recommendation');
+const profileRoutes = require('./profile');
 const authRoutes = require('./authRoutes');
 const reviewsRoutes = require('./reviews');
 
@@ -23,6 +24,7 @@ app.get("/", (req, res) => {
 app.use('/search', searchRoutes);
 app.use('/auth', authRoutes);
 app.use('/api', recommendationRoutes);
+app.use('/api', profileRoutes);
 app.use('/api', reviewsRoutes);
 
 //Error handler
