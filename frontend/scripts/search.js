@@ -7,15 +7,15 @@ if (submitButton) {
     e.preventDefault();
     const title = document.getElementById("title").value;
     const author = document.getElementById("author").value;
-    const genre = document.getElementById("genre").value;
+    const subject = document.getElementById("subject").value;
     const queryParams = new URLSearchParams();
     if (title) queryParams.append("title", title);
     if (author) queryParams.append("author", author);
-    if (genre) queryParams.append("genre", genre);
+    if (subject) queryParams.append("subject", subject);
 
     console.log("Searching for:", queryParams.toString());
 
-    fetch("http://localhost:3000/api/search?" + queryParams.toString())
+    fetch("http://localhost:3000/search?" + queryParams.toString())
       .then((res) => res.json())
       .then((data) => {
         const list = document.getElementById("bookList");
@@ -41,7 +41,6 @@ function createBookTile(book) {
     }" alt="Cover" class="book-cover">
     <h3>${book.title}</h3>
     <p>by ${book.author}</p>
-    <p>${book.genre}</p>
   `;
   return div;
 }
