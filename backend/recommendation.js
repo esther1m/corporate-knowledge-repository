@@ -53,68 +53,50 @@ router.get('/my-recommendation', authMiddleware, async (req, res) => {
 
 // POST /recommendation (protected)
 router.post('/recommendation', authMiddleware, async (req, res) => {
-  const { work_id, rating, review, title, genre, author  } = req.body;
+  const { work_id, rating, review, title, genre, author } = req.body;
 
   try {
-    //Finding or creating emplotee profile linked to the user_id 
-    let { data: employee, error: employeeError } = await supabase
-    .from('employees')
-    .select('employee_id')
-    .eq('user_id', req.user.id)
-    .single();
-
-    if (!employee) {
-      //Auto-create profile if it does not exist 
-      const { data: newEmployee, error: createError } = await supabase 
+    // Check if employee profile exists
+    const { data: employee, error: employeeError } = await supabase
       .from('employees')
-        .insert([{
-          user_id: req.user.id,
-          first_name: req.body.first_name || 'FirstName',
-          last_name: req.body.last_name || 'LastName',
-          position: req.body.position || 'Position',
-          department: req.body.department || 'Department'
-        }])
-        .select()
-        .single();
+      .select('employee_id')
+      .eq('user_id', req.user.id)
+      .single();
 
-        if (createError) {
-          return res.status(400).json({ error: createError.message});
-        }
-
-        employee = newEmployee;
+    if (employeeError || !employee) {
+      return res.status(400).json({ error: 'Profile not found. Please create your profile first.' });
     }
 
     const employee_id = employee.employee_id;
 
     // Validate required fields
-  if (!work_id || !rating || !review || !title || !employee_id || !genre || !author) {
-    return res.status(400).json({ error: 'All fields are required.' });
+    if (!work_id || !rating || !review || !title || !genre || !author) {
+      return res.status(400).json({ error: 'All fields are required.' });
+    }
 
+    // Insert recommendation including employee_id
+    const { data, error } = await supabase
+      .from('recommendations')
+      .insert([{
+        work_id,
+        rating,
+        review,
+        title,
+        genre,
+        author,
+        employee_id
+      }])
+      .select();
+
+    if (error) return res.status(400).json({ error: error.message });
+
+    res.json({ message: 'Recommendation added!', data });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: 'Internal server error' });
   }
-
-  // Insert recommendation including employee_id
-  const { data, error } = await supabase
-    .from('recommendations')
-    .insert([{ 
-      work_id, 
-      rating, 
-      review, 
-      title, 
-      genre,
-      author,
-      employee_id
-    }]).select();
-
-  if (error) {
-    return res.status(400).json({ error: error.message });}
-
-  res.json({ message: 'Recommendation added!', data });
- } catch (err) {
-  console.log(err);
-  res.status(500).json({ error: 'Internal server error' });
-
- }
 });
+
 
 //Delete recommendations by employee_id
 router.delete('/recommendation', authMiddleware, async (req, res) => {
