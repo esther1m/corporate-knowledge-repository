@@ -1,0 +1,157 @@
+# F1 Fan Hub – Backend (Node + Express + Supabase)
+
+Simple Express API that handles auth, profiles, reviews, recommendations and book search. Authentication is powered by **Supabase** (JWT) and data is stored in Supabase Postgres.
+
+## Contents
+
+- [Tech Stack](#tech-stack)
+- [Folder Structure](#folder-structure)
+- [Prerequisites](#prerequisites)
+- [Environment Variables](#environment-variables)
+- [Install & Run](#install--run)
+- [Auth Model & Middleware](#auth-model--middleware)
+- [API Reference](#api-reference)
+  - [Auth](#auth)
+  - [Profile](#profile)
+  - [Reviews](#reviews)
+  - [Recommendations](#recommendations)
+  - [Search (Open Library)](#search-open-library)
+- [Notes & Behaviors](#notes--behaviors)
+- [Postman – API Collection](#postman--api-collection)
+- [Troubleshooting](#troubleshooting)
+- [Security Tips](#security-tips)
+- [License](#license)
+
+---
+
+## Tech Stack
+
+- **Node.js** + **Express**
+- **Supabase** (`@supabase/supabase-js`) – Auth & Postgres
+- **Open Library** public API (for book search)
+- CORS enabled for local dev
+
+## Folder Structure
+
+```
+backend/
+├─ index.js                 # Express app entry
+├─ authRoutes.js            # /auth routes (signup/login/logout)
+├─ authMiddleware.js        # Verifies Bearer JWT with Supabase
+├─ profile.js               # /api/profile routes (get/upsert)
+├─ reviews.js               # /api/reviews routes (CRUD)
+├─ recommendations.js       # /api/recommendation routes (CRUD)
+├─ search.js                # /search proxy to Open Library API
+├─ supabaseClient.js        # (not shown here) exports configured client
+├─ .env                     # local environment (not committed)
+└─ package.json
+```
+
+## Prerequisites
+
+- Node 18+
+- A Supabase project with the following tables:
+  - `employees`
+  - `reviews`
+  - `recommendations`
+- Supabase **Project URL** and **Service Role (SECRET) key** (needed server-side)
+
+## Environment Variables
+
+Create a `.env` file in the project root:
+
+```bash
+PORT=3000
+SUPABASE_URL=https://YOUR-PROJECT.supabase.co
+SUPABASE_SECRET_KEY=YOUR_SERVICE_ROLE_KEY
+CORS_ORIGIN=http://localhost:5500
+```
+
+## Install & Run
+
+```bash
+npm install
+npm start
+# or nodemon:
+npm run dev
+```
+
+---
+
+## Auth Model & Middleware
+
+- **All protected routes are wrapped with `authMiddleware`**, which checks the JWT with `supabase.auth.getUser(token)`.
+- Token is expected in the header: `Authorization: Bearer <access_token>`.
+
+---
+
+## API Reference
+
+Base URL: `http://localhost:3000`
+
+### Auth
+- **POST `/auth/signup`**
+- **POST `/auth/login`**
+- **POST `/auth/logout`**
+
+### Profile
+- **GET `/api/profile`** (protected)
+- **POST `/api/profile`** (protected)
+
+### Reviews
+- **GET `/api/reviews`** (protected)
+- **GET `/api/reviews/:work_id`** (protected)
+- **GET `/api/my-reviews`** (protected)
+- **POST `/api/reviews`** (protected)
+- **DELETE `/api/reviews`** (protected)
+
+### Recommendations
+- **GET `/api/recommendation`** (protected)
+- **GET `/api/my-recommendation`** (protected)
+- **POST `/api/recommendation`** (protected)
+- **DELETE `/api/recommendation`** (protected)
+
+### Search (Open Library)
+- **GET `/search?title=…&author=…`** (public)
+- **GET `/search?subject=…`** (public)
+
+---
+
+## Notes & Behaviors
+
+- **Logging out**: Access tokens expire automatically. Logout removes the refresh token.
+- **Routes wrapped in `authMiddleware`**: All profile, reviews, and recommendation routes require a valid token. Search is public.
+- **Employee profile**: `GET /api/profile` returns `{ exists: false }` if not found. Frontend should prompt user to create a profile.
+
+---
+
+## Postman – API Collection
+
+See [F1-Fan-Hub.postman_collection.json](./F1-Fan-Hub.postman_collection.json) and [F1-Fan-Hub.postman_environment.json](./F1-Fan-Hub.postman_environment.json) in this repo.
+
+### How to use:
+1. Import both JSON files into Postman.
+2. Login → copy `access_token` into the Postman Environment `{{access_token}}` variable.
+3. Hit protected routes (they include `Authorization: Bearer {{access_token}}`).
+
+---
+
+## Troubleshooting
+
+- **401 Missing/Invalid Token**: Ensure `Authorization: Bearer <token>` header is present and valid.
+- **Supabase Errors**: Check `.env` keys and Supabase table definitions.
+- **CORS issues**: Configure `CORS_ORIGIN`.
+
+---
+
+## Security Tips
+
+- Never expose `SUPABASE_SECRET_KEY` to the client.
+- Always validate input.
+- Restrict CORS origins.
+
+---
+
+## License
+
+MIT (or your choice)
