@@ -15,6 +15,9 @@ const port = process.env.PORT || 3000;
 
 app.use(express.json());
 
+const cors = require('cors');
+app.use(cors());
+
 // Root endpoint
 app.get("/", (req, res) => {
   res.status(200).send("Hello registration");

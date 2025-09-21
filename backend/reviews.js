@@ -21,6 +21,25 @@ router.get('/reviews', authMiddleware, async (req, res) => {
   }
 });
 
+// GET reviews for a specific work_id (book)
+router.get('/reviews/:work_id', authMiddleware, async (req, res) => {
+  const { work_id } = req.params;
+  try {
+    const { data, error } = await supabase
+      .from('reviews')
+      .select('*')
+      .eq('work_id', work_id);
+
+    if (error) return res.status(400).json({ error: error.message });
+    if (!data || data.length === 0) return res.status(404).json({ error: 'No reviews found for this book' });
+
+    res.json({ data });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
 
 // GET logged-in user's reviews (protected)
 router.get('/my-reviews', authMiddleware, async (req, res) => {

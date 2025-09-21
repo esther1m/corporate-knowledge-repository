@@ -9,7 +9,7 @@ const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SEC
 
 // POST /signup
 router.post('/signup', async (req, res) => {
-  const { email, password } = req.body;
+  const { email, password, first_name, last_name, position, department } = req.body;
 
 //Trim spaces and clean the input 
 const emailClean = req.body.email?.trim();
@@ -19,11 +19,33 @@ const passwordClean = req.body.password?.trim();
   if (!emailClean || !passwordClean) 
     return res.status(400).json({ error: 'Email and password required' });
 
-  const { data, error } = await supabase.auth.signUp({ email: emailClean, password: passwordClean });
+  const { data: signUpData, error: signUpError } = await supabase.auth.signUp({ email: emailClean, password: passwordClean });
 
-  if (error) return res.status(400).json({ error: error.message });
+  if (signUpError) return res.status(400).json({ error: signUpError.message });
 
-  res.json({ message: 'Signup successful', data });
+  const { data: profileData, error: profileError } = await supabase
+      .from('employees')
+      .upsert([{
+        user_id: signUpData.user.id,
+        first_name,
+        last_name,
+        position,
+        department
+      }], { onConflict: 'user_id' })
+      .select()
+      .single();
+
+      if (profileError) {
+        console.error('Error creating profile:', profileError);
+        return res.status(400).json({ error: profileError.message });
+      }
+
+
+  res.json({
+    message: "Signup successful",
+    ...(profileData || {}),
+    ...(signUpData || {}),
+  });
 });
 
 // Login

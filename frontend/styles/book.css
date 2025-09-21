@@ -1,0 +1,295 @@
+#bookInfo {
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem;
+  padding: 1rem;
+}
+
+#bookAuthor {
+    font-style: italic;
+    color: #414141;
+}
+
+.book-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.book-details {
+  margin-bottom: 3rem;
+}
+
+.book-info {
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.book-text {
+  flex: 1;
+}
+
+.book-text h1 {
+  font-size: 1.8rem;
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+.book-text h3 {
+  font-style: italic;
+  color: #666;
+  margin-bottom: 2rem;
+}
+
+.book-cover {
+  height: 250px;
+  object-fit: cover;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.btn {
+  padding: 0.75rem 1.5rem;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btn:hover {
+  background-color: #45a049;
+}
+
+.btn-secondary {
+  background-color: #666;
+}
+
+.btn-secondary:hover {
+  background-color: #555;
+}
+
+.review-form {
+  background-color: #f5f5f5;
+  padding: 2rem;
+  border-radius: 8px;
+  margin-top: 2rem;
+}
+
+#reviewFormSection.hidden {
+  display: none;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #666;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: .5rem;
+}
+
+.form-group textarea {
+    width: 100%;
+    max-width: 100%;  /* Prevent horizontal overflow */
+    height: 150px;    /* Fixed height */
+    resize: vertical; /* Allow only vertical resizing */
+    min-height: 100px;
+    max-height: 300px;
+    padding: .5rem;
+    box-sizing: border-box;
+}
+
+.form-group input[type="checkbox"] {
+  margin-right: 0.5rem;
+}
+
+/* Optional: For a toggle switch style instead of checkbox */
+.form-group input[type="checkbox"] {
+  appearance: none;
+  width: 40px;
+  height: 20px;
+  background: #ddd;
+  border-radius: 20px;
+  position: relative;
+  cursor: pointer;
+  margin-right: 1rem;
+}
+
+.form-group input[type="checkbox"]::before {
+  content: '';
+  width: 18px;
+  height: 18px;
+  background: white;
+  position: absolute;
+  border-radius: 50%;
+  top: 1px;
+  left: 1px;
+  transition: 0.3s;
+}
+
+.form-group input[type="checkbox"]:checked {
+  background: #4CAF50;
+}
+
+.form-group input[type="checkbox"]:checked::before {
+  transform: translateX(20px);
+}
+
+.form-buttons {
+  display: flex;
+  gap: 1rem;
+}
+
+/* Star rating styles */
+.star-rating {
+  display: inline-flex;
+  flex-direction: row-reverse;
+  gap: 0.25rem;
+}
+
+.star-rating input {
+  display: none;
+}
+
+.star-rating label {
+  cursor: pointer;
+  font-size: 1.8rem;
+  color: #ddd;
+}
+
+.star-rating label:hover,
+.star-rating label:hover ~ label,
+.star-rating input:checked ~ label {
+  color: #45a049;
+}
+
+.stars-display {
+  color: #45a049;
+  font-size: 1.6rem;
+}
+
+.toggle-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.toggle-label {
+  width: 40px;
+  height: 20px;
+  background: #ddd;
+  border-radius: 20px;
+  position: relative;
+  cursor: pointer;
+}
+
+.toggle-label::before {
+  content: '';
+  width: 18px;
+  height: 18px;
+  background: white;
+  position: absolute;
+  border-radius: 50%;
+  top: 1px;
+  left: 1px;
+  transition: 0.3s;
+}
+
+input[type="checkbox"] {
+  display: none;
+}
+
+input[type="checkbox"]:checked + .toggle-label {
+  background: #4CAF50;
+}
+
+input[type="checkbox"]:checked + .toggle-label::before {
+  transform: translateX(20px);
+}
+
+.toggle-text {
+  cursor: default;
+}
+
+.reviews-section {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid #eee;
+}
+
+.reviews-section h2 {
+  font-size: 1.5rem;
+  color: #333;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #4CAF50;
+}
+
+.reviews-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.reviews-list ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.reviews-list li {
+  margin: 0;
+}
+
+.review-item {
+  background: white;
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.review-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.review-rating {
+  color: #333;
+}
+
+.review-meta {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.review-comment {
+  color: #333;
+  line-height: 1.5;
+  margin-top: 1rem;
+}
+
+.recommended-badge {
+  display: inline-block;
+  background: #4CAF50;
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  margin-left: 1rem;
+}

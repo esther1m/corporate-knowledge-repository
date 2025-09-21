@@ -1,0 +1,24 @@
+<link rel="stylesheet" href="styles/recommendations.css">
+
+<h1 class="recommendations-title">Recommendations</h1>
+
+<form id="filterForm" class="filter-form">
+    <div class="filter-group">
+        <label for="starFilter">Number of stars:</label>
+        <select id="starFilter" name="stars">
+            <option value="0">All</option>
+            <option value="1">★</option>
+            <option value="2">★★</option>
+            <option value="3">★★★</option>
+            <option value="4">★★★★</option>
+            <option value="5">★★★★★</option>
+        </select>
+    </div>
+    <div class="filter-group">
+        <label for="genreFilter">Genre:</label>
+        <input type="text" id="genreFilter" name="genre" placeholder="Enter genre...">
+    </div>
+    <button type="button" id="clearFilters" class="clear-btn">Clear Filters</button>
+</form>
+
+<div id="bookList" class="recommendations-list"></div>

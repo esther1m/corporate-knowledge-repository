@@ -1,0 +1,54 @@
+<link rel="stylesheet" href="styles/book.css">
+<link rel="stylesheet" href="styles/reviews.css">
+
+<div class="book-container">
+  <section class="book-details">
+    <div class="book-info">
+      <div class="book-text">
+        <h1 id="bookTitle"></h1>
+        <h3 id="bookAuthor"></h3>
+        <button id="addReviewBtn" class="btn">Add Review</button>
+      </div>
+      <img id="bookCover" class="book-cover">
+    </div>
+
+    <div id="reviewFormSection" class="review-form hidden">
+      <h3>Add Review</h3>
+      <form id="reviewForm">
+        <div class="form-group">
+          <label>Rating:</label>
+          <div class="star-rating">
+            <input type="radio" id="star5" name="rating" value="5" required>
+            <label for="star5">★</label>
+            <input type="radio" id="star4" name="rating" value="4">
+            <label for="star4">★</label>
+            <input type="radio" id="star3" name="rating" value="3">
+            <label for="star3">★</label>
+            <input type="radio" id="star2" name="rating" value="2">
+            <label for="star2">★</label>
+            <input type="radio" id="star1" name="rating" value="1">
+            <label for="star1">★</label>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="comment">Review:</label>
+          <textarea id="comment" required></textarea>
+        </div>
+        <div class="toggle-container">
+          <input type="checkbox" id="recommended" name="recommended">
+          <label for="recommended" class="toggle-label"></label>
+          <span class="toggle-text">Add as recommendation</span>
+        </div>
+        <div class="form-buttons">
+          <button type="submit" class="btn">Submit Review</button>
+          <button type="button" id="cancelReview" class="btn btn-secondary">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <section class="reviews-section">
+    <h2>Reviews</h2>
+    <div id="reviews" class="reviews-list"></div>
+  </section>
+</div>
