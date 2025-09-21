@@ -1,5 +1,6 @@
 # F1 Fan Hub – Backend (Node + Express + Supabase)
 
+Overview: 
 Simple Express API that handles auth, profiles, reviews, recommendations and book search. Authentication is powered by **Supabase** (JWT) and data is stored in Supabase Postgres.
 
 ## Contents
