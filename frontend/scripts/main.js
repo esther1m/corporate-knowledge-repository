@@ -1,4 +1,12 @@
-// Inject navbar first
+console.log("Main Script loaded!");
+
+window.addEventListener("hashchange", () => {
+  const page = window.location.hash.slice(1) || "home";
+  loadPage(`pages/${page}.html`);
+  updateActiveNavLink();
+});
+
+// Inject navbar 
 fetch("components/navbar.html")
   .then((response) => response.text())
   .then((html) => {
@@ -18,58 +26,120 @@ fetch("components/navbar.html")
         e.target.classList.add("active");
       }
     });
+
+    // Call updateActiveNavLink after navbar is injected
+    updateActiveNavLink();
   });
 
 let currentPage = null;
 
 function loadPage(page) {
-  if (currentPage === page) return; // Prevent reload if already on page
+  if (currentPage === page) return;
   currentPage = page;
+
+  // Check auth first - if not auth page and no token, redirect to auth
+  const token = localStorage.getItem("access_token");
+  if (page !== "pages/auth.html" && !token) {
+    console.log("No token found, redirecting to auth");
+    currentPage = "pages/auth.html";
+    loadPage("pages/auth.html");
+    return;
+  }
+
   fetch(page)
     .then((response) => response.text())
     .then((html) => {
       document.getElementById("content").innerHTML = html;
+
+      if (page === "pages/home.html") {
+        import("/frontend/scripts/home.js").then((module) => {
+          module.init();
+        });
+      }
+      
+      if (page === "pages/book.html") {
+        import("/frontend/scripts/book.js").then((module) => {
+          module.init();
+        });
+      }
+
+      if (page === "pages/recommendations.html") {
+        import("/frontend/scripts/recommendations.js").then((module) => {
+          module.init();
+        });
+      }
+      
+      
+      if (page === "pages/search.html") {
+        import("/frontend/scripts/search.js").then((module) => {
+          module.init();
+        });
+      }
+
+      if (page === "pages/auth.html") {
+        import("/frontend/scripts/auth.js").then((module) => {
+          module.init();
+        });
+      }
     });
+}
 
-  if (page === "pages/auth.html") {
-    // Remove any existing auth.js script
-    const oldScript = document.getElementById("authScript");
-    if (oldScript) oldScript.remove();
+async function checkAuthAndInitialize() {
+  var token = localStorage.getItem("access_token");
+  if (token) {
+    try {
+      const res = await fetch("http://localhost:3000/api/profile", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
+        },
+      });
 
-    // Dynamically load auth.js when auth.html is loaded
-    const script = document.createElement("script");
-    script.src = "scripts/auth.js";
-    script.id = "authScript";
-    document.body.appendChild(script);
-    script.onload = () => console.log("auth.js loaded");
-  }
+      if (!res.ok) {
+        if (res.status === 401) {
+          localStorage.removeItem("access_token");
+          localStorage.removeItem("current_user");
+          console.log("Session expired. Please log in again.");
+          loadPage("pages/auth.html");
+        }
+        return;
+      }
 
-  if (page === "pages/home.html") {
-    // Remove any existing auth.js script
-    const oldScript = document.getElementById("homeScript");
-    if (oldScript) oldScript.remove();
+      const data = await res.json();
+      const currentUser =
+        data.profile.first_name + " " + data.profile.last_name;
+      localStorage.setItem("current_user", currentUser);
+      console.log("Current user:", currentUser);
 
-    // Dynamically load auth.js when auth.html is loaded
-    const script = document.createElement("script");
-    script.src = "scripts/home.js";
-    script.id = "homeScript";
-    document.body.appendChild(script);
-    script.onload = () => console.log("home.js loaded");
-  }
-
-   if (page === "pages/search.html") {
-    // Remove any existing auth.js script
-    const oldScript = document.getElementById("searchScript");
-    if (oldScript) oldScript.remove();
-
-    // Dynamically load auth.js when auth.html is loaded
-    const script = document.createElement("script");
-    script.src = "scripts/search.js";
-    script.id = "searchScript";
-    document.body.appendChild(script);
-    script.onload = () => console.log("search.js loaded");
+      // Load home page only on initial auth
+      loadPage("pages/home.html");
+    } catch (err) {
+      console.log("Error:", err.message);
+    }
+  } else {
+    loadPage("pages/auth.html");
+    console.log("No access token found, user not logged in.");
   }
 }
 
-// Load home.html on initial page load
-loadPage("pages/home.html");
+function updateActiveNavLink() {
+  // Get current page from hash or default to 'home'
+  const currentPage = window.location.hash.slice(1) || 'home';
+  const navLinks = document.querySelectorAll('.navbar a');
+  
+  navLinks.forEach(link => {
+      link.classList.remove('active');
+      // Get href without .html and potential path prefix
+      const href = link.getAttribute('href').split('.')[0];
+      if (href === currentPage) {
+          link.classList.add('active');
+      }
+  });
+}
+
+// Call once on initial load
+updateActiveNavLink();
+
+// Call the auth check only once when the script loads
+checkAuthAndInitialize();

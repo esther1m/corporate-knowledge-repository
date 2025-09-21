@@ -1,9 +1,24 @@
+<link rel="stylesheet" href="styles/book-tile.css">
 <link rel="stylesheet" href="styles/search.css">
-<h2>Book Search</h2>
-<form id="searchForm">
-  <input type="text" id="title" name="title" placeholder="Title">
-  <input type="text" id="author" name="author" placeholder="Author">
-  <input type="text" id="subject" name="subject" placeholder="Subject">
-  <button type="submit">Search</button>
-</form>
-<ul id="bookList"></ul>
+
+<div class="search-container">
+    <h2 class="search-title">Search Books</h2>
+    
+    <form id="searchForm" class="search-form">
+        <div class="form-group">
+            <label for="titleInput">Title</label>
+            <input type="text" id="titleInput" name="titleInput">
+        </div>
+        <div class="form-group">
+            <label for="authorInput">Author</label>
+            <input type="text" id="authorInput" name="authorInput">
+        </div>
+        <div class="form-group">
+            <label for="subjectInput">Subject</label>
+            <input type="text" id="subjectInput" name="subjectInput">
+        </div>
+        <button type="submit" class="btn">Search</button>
+    </form>
+
+    <ul id="bookList" class="book-list-grid"></ul>
+</div>

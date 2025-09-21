@@ -1,0 +1,113 @@
+.book-tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;  /* Add this line */
+  width: 250px;
+  height: auto;  /* Change from fixed height to auto */
+  min-height: 350px;  /* Add minimum height */
+  max-height: 450px;  /* Add maximum height */
+  margin: 10px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background: #fafafa;
+  transition: transform 0.2s;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  min-width: 180px;
+}
+
+.book-tile:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.book-tile .book-cover {
+  width: 120px;
+  height: 180px;
+  object-fit: cover;
+  margin-bottom: 8px;
+}
+
+.book-tile p {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;  /* Increase to 3 lines for title */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;  /* Change from max-width to width */
+  line-height: 1.2;
+  flex-grow: 1;
+  text-align: center;
+  padding: 0 8px;
+  box-sizing: border-box;
+  margin: 4px 0;
+}
+
+.book-tile .author {
+  font-style: italic;
+  color: #666;
+  font-size: 0.9em;
+  margin-top: auto;
+  margin-bottom: 8px;  /* Add space before subjects */
+  width: 100%;
+  text-align: center;
+  padding: 0 8px;
+  box-sizing: border-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.book-tile .subjects {
+  width: 100%;
+  text-align: center;
+  padding: 4px 8px;
+  box-sizing: border-box;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;  /* Show max 2 lines */
+  -webkit-box-orient: vertical;
+  font-size: 0.8em;
+  color: #666;
+  margin-bottom: 8px;
+}
+
+/* Horizontal scrolling layout for home page */
+.book-list-scroll {
+    display: flex;
+    overflow-x: auto;
+    gap: 1rem;
+    padding: 1rem;
+    list-style: none;
+    margin: 0;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+}
+
+.book-list-scroll::-webkit-scrollbar {
+    height: 8px;
+}
+
+.book-list-scroll::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+.book-list-scroll::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+}
+
+/* Wrapping grid layout for search page */
+.book-list-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    padding: 1rem;
+    list-style: none;
+    margin: 0;
+    justify-content: left;
+    max-width: 1200px;
+    margin: 0 auto;
+}

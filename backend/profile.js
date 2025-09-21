@@ -28,7 +28,7 @@ router.get('/profile', authMiddleware, async (req, res) => {
 });
 
 // POST or UPDATE profile
-router.post('/profile', authMiddleware, async (req, res) => {
+router.post('/profile', async (req, res) => {
   const { first_name, last_name, position, department } = req.body;
 
   if (!first_name || !last_name) {
@@ -40,7 +40,7 @@ router.post('/profile', authMiddleware, async (req, res) => {
     const { data, error } = await supabase
       .from('employees')
       .upsert([{
-        user_id: req.user.id,
+        user_id: res.user_id,
         first_name,
         last_name,
         position,
