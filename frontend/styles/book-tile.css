@@ -1,11 +1,11 @@
 .book-tile {
   display: flex;
   flex-direction: column;
-  align-items: center;  /* Add this line */
+  align-items: center;  
   width: 250px;
-  height: auto;  /* Change from fixed height to auto */
-  min-height: 350px;  /* Add minimum height */
-  max-height: 450px;  /* Add maximum height */
+  height: auto;  
+  min-height: 350px;  
+  max-height: 450px;  
   margin: 10px;
   padding: 10px;
   border: 1px solid #ccc;
@@ -31,11 +31,11 @@
 
 .book-tile p {
   display: -webkit-box;
-  -webkit-line-clamp: 3;  /* Increase to 3 lines for title */
+  -webkit-line-clamp: 3;  
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
-  width: 100%;  /* Change from max-width to width */
+  width: 100%;  
   line-height: 1.2;
   flex-grow: 1;
   text-align: center;
@@ -49,7 +49,7 @@
   color: #666;
   font-size: 0.9em;
   margin-top: auto;
-  margin-bottom: 8px;  /* Add space before subjects */
+  margin-bottom: 8px; 
   width: 100%;
   text-align: center;
   padding: 0 8px;
